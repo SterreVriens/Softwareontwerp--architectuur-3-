@@ -25,4 +25,11 @@ public class MovieTicket {
     public String toString() {
         return "Row: " + rowNr + ", Seat: " + seatNr + ", Premium: " + isPremium;
     }
+    public String toJSONString(){
+        return "{\n" +
+                "  \"Row\": " + rowNr + ",\n" +
+                "  \"Seat\": " + seatNr + ",\n" +
+                "  \"Premium\": " + isPremium + "\n" +
+                "}";
+    }
 }

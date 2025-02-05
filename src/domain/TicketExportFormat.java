@@ -1,6 +1,6 @@
 package domain;
 
-enum TicketExportFormat {
+public enum TicketExportFormat {
     PLAINTEXT, 
     JSON,
 }
