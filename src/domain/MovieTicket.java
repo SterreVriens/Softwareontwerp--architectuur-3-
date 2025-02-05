@@ -18,7 +18,11 @@ public class MovieTicket {
     }
 
     public double getprice() {
-        return 0;
+        return 13;
+    }
+
+    public MovieScreening getMovieScreening() {
+        return movieScreening;
     }
 
     @Override
