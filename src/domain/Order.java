@@ -33,11 +33,6 @@ public class Order {
         
         return applyDiscount(totalPrice, isWeekend);
     }
-    
-    private boolean isWeekend(MovieTicket movieTicket){
-        DayOfWeek day = movieTickets.get(0).getMovieScreening().getDateTime().getDayOfWeek();
-        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY || day == DayOfWeek.FRIDAY;
-    }
 
     private double calculateBasePrice(boolean isWeekend) {
         double total = 0;
@@ -63,6 +58,11 @@ public class Order {
             return totalPrice * 0.9; // 10% korting
         }
         return totalPrice;
+    }   
+    
+    private boolean isWeekend(MovieTicket movieTicket){
+        DayOfWeek day = movieTickets.get(0).getMovieScreening().getDateTime().getDayOfWeek();
+        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY || day == DayOfWeek.FRIDAY;
     }
 
     public void export(TicketExportFormat exportFormat) {
