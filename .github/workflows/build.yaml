@@ -25,20 +25,7 @@ jobs:
       - name: Check Java version
         run: java -version  # Dit laat in de logs zien of Java 17 actief is
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Run SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=SterreVriens_Softwareontwerp--architectuur-3-
-            -Dsonar.organization=sterrevriens
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=$SONAR_TOKEN
