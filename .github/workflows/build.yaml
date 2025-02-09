@@ -1,18 +1,30 @@
-name: Build
+name: SonarCloud Analysis
+
 on:
   push:
     branches:
       - main
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches:
+      - main
+
 jobs:
-  sonarqube:
-    name: SonarQube
-    runs-on: windows-latest
+  sonarcloud:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Check Java version
+        run: java -version  # Dit laat in de logs zien of Java 17 actief is
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
