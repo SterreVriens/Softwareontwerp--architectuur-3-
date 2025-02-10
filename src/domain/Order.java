@@ -9,6 +9,7 @@ public class Order {
     private int orderNr;
     private boolean isStudentOrder;
     private ArrayList<MovieTicket> movieTickets = new ArrayList<MovieTicket>();
+    private ExportBehavior exportBehavior;
 
     private String exportPath = "exports/order" + orderNr;
 
@@ -19,6 +20,14 @@ public class Order {
 
     public int getOrderNr() {
         return orderNr;
+    }
+
+    public boolean isStudentOrder() {
+        return isStudentOrder;
+    }
+
+    public ArrayList<MovieTicket> getMovieTickets() {
+        return movieTickets;
     }
 
     public void addSeatReservation(MovieTicket movieTicket) {
@@ -65,58 +74,20 @@ public class Order {
         return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY || day == DayOfWeek.FRIDAY;
     }
 
-    public void export(TicketExportFormat exportFormat) {
+    public void export(TicketExportFormat exportFormat) throws Exception {
         try {
             switch (exportFormat) {
                 case PLAINTEXT:
-                    exportToPlainText(exportPath);
+                    exportBehavior = new ExportPlainText();
+                    exportBehavior.export(exportPath, this);
                     break;
                 case JSON:
-                    exportToJson(exportPath);
+                    exportBehavior = new ExportJson();
+                    exportBehavior.export(exportPath, this);
                     break;
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void exportToPlainText(String exportPath) throws IOException {
-        String text = "";
-        text += "Order nr: " + orderNr + "\n";
-        text += "Is student order: " + isStudentOrder + "\n";
-        for (MovieTicket movieTicket : movieTickets) {
-            text += movieTicket.toString() + "\n";
-        }
-
-        // Write to txt file
-        try (FileWriter writer = new FileWriter(exportPath + ".txt")) {
-            writer.write(text);
-        }
-    }
-
-    private void exportToJson(String exportPath) throws IOException {
-        String json = "{\n";
-        json += "  \"OrderNr\": " + orderNr + ",\n";
-        json += "  \"IsStudentOrder\": " + isStudentOrder + ",\n";
-
-        // MovieTickets array
-        json += "  \"MovieTickets\": [\n";
-        for (int i = 0; i < movieTickets.size(); i++) {
-            json += movieTickets.get(i).toJSONString();
-
-            if (i < movieTickets.size() - 1) {
-                json += ",\n";
-            } else {
-                json += "\n";
-            }
-        }
-        json += "  ]\n"; // End of MovieTickets array
-
-        json += "}\n";
-
-        //Write to json file
-        try (FileWriter writer = new FileWriter(exportPath + ".json")) {
-            writer.write(json);
         }
     }
 }
