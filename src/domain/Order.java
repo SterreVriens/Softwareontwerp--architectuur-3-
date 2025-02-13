@@ -79,13 +79,12 @@ public class Order {
             switch (exportFormat) {
                 case PLAINTEXT:
                     exportBehavior = new ExportPlainText();
-                    exportBehavior.export(exportPath, this);
                     break;
                 case JSON:
                     exportBehavior = new ExportJson();
-                    exportBehavior.export(exportPath, this);
                     break;
             }
+            exportBehavior.export(exportPath, this);
         } catch (IOException e) {
             e.printStackTrace();
         }
